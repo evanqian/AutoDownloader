@@ -21,7 +21,7 @@ namespace A360Archiver
 {
     public partial class LogInForm : Form
     {
-        // test version forked
+        
         private LogInInfo logInInfo;
         private CefSharp.WinForms.ChromiumWebBrowser webBrowser;
 

@@ -131,7 +131,7 @@ namespace A360Archiver
         private List<MyTreeNode> nodesLoading = new List<MyTreeNode>();
         const char kUpdateChar = '\u21bb';
         const int kTokenRefreshMultiplier = 9; // should be 900
-        Timer timer = new Timer();
+        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
 
         private DialogResult showLogIn()
         {

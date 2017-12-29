@@ -83,6 +83,7 @@
             this.treeView.Size = new System.Drawing.Size(230, 449);
             this.treeView.TabIndex = 0;
             this.treeView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView_BeforeExpand);
+            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             // 
             // treeImages
             // 
@@ -135,6 +136,7 @@
             // btnRetry
             // 
             this.btnRetry.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnRetry.Enabled = false;
             this.btnRetry.Location = new System.Drawing.Point(203, 427);
             this.btnRetry.Name = "btnRetry";
             this.btnRetry.Size = new System.Drawing.Size(94, 23);
@@ -146,6 +148,7 @@
             // btnBackup
             // 
             this.btnBackup.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnBackup.Enabled = false;
             this.btnBackup.Location = new System.Drawing.Point(103, 427);
             this.btnBackup.Name = "btnBackup";
             this.btnBackup.Size = new System.Drawing.Size(94, 23);

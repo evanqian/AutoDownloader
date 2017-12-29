@@ -15,6 +15,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Reflection;
 using RestSharp;
+using System.Threading;
 
 namespace A360Archiver
 {
@@ -672,6 +673,7 @@ namespace A360Archiver
                     try
                     {
                         version = await versionsApi.GetVersionAsync(projectId, versionId);
+                        
                     }
                     catch (Exception ex)
                     {
@@ -812,7 +814,6 @@ namespace A360Archiver
             }
 
             //btnBackup.Enabled = false;
-
             listFolderContents(nodeToDownload, true, true);
         }
 
@@ -840,6 +841,13 @@ namespace A360Archiver
         private void MainForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            MyTreeNode node = (MyTreeNode)e.Node;
+            btnBackup.Enabled = (node.nodeType == NodeType.Folder);
+            btnRetry.Enabled = (node.nodeType == NodeType.Folder);
         }
     }
     public class LogInInfo

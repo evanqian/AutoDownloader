@@ -20,8 +20,6 @@ using System.Net.Http.Headers;
 namespace A360Archiver
 {
     // merge test by EQ
-
-
     public partial class LogInForm : Form
     {
         

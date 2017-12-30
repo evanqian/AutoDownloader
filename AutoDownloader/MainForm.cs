@@ -21,13 +21,16 @@ namespace A360Archiver
 {
     public partial class MainForm : Form
     {
+        CancellationTokenSource cts;
+
         public Dictionary<DownloadState, Color> downloadStateToColor = new Dictionary<DownloadState, Color>()
         {
             { DownloadState.Default, Color.Empty },
             { DownloadState.Downloaded, Color.Green },
             { DownloadState.Downloading, Color.Orange },
             { DownloadState.Failed, Color.Red },
-            { DownloadState.Waiting, Color.Yellow }
+            { DownloadState.Waiting, Color.Yellow },
+            { DownloadState.Cancelled, Color.Yellow }
         };
 
         public enum DownloadState
@@ -36,7 +39,8 @@ namespace A360Archiver
             Downloading,
             Downloaded,
             Waiting,
-            Failed
+            Failed,
+            Cancelled
         };
 
         // Also used for setting the icon for the node
@@ -183,7 +187,9 @@ namespace A360Archiver
 
         public MainForm()
         {
+            
             InitializeComponent();
+            this.tbxBackupFolder.Text = Path.GetTempPath();
 
             useDoubleBuffered(this.ltvFiles, true);
             useDoubleBuffered(this.treeView, true);
@@ -467,7 +473,7 @@ namespace A360Archiver
             }
         }
 
-        private async Task downloadFile(string localPath, string href)
+        private async Task downloadFile(string localPath, string href, CancellationToken ct)
         {
             Debug.Print("downloadFile >> localPath : " + localPath);
             Debug.Print("downloadFile >> href : " + href);
@@ -500,11 +506,15 @@ namespace A360Archiver
                     using (var stream = await response.Content.ReadAsStreamAsync())
                     using (var fs = new FileStream(localPath, FileMode.Create, FileAccess.Write, FileShare.None))
                     {
-                        await stream.CopyToAsync(fs);
+                        await stream.CopyToAsync(fs, 4096, ct);
                         Debug.Print("downloadFile : After downloadFile finished");
                     }
 
                     return;
+                }
+                catch(TaskCanceledException tex)
+                {
+                    throw (tex);
                 }
                 catch (Exception ex)
                 {
@@ -718,10 +728,15 @@ namespace A360Archiver
                     throw new Exception("Download failed");
 
                 Debug.Print("startDownload : Before calling downloadFile"); 
-                await downloadFile(item.localPath, href);
+                await downloadFile(item.localPath, href, cts.Token);
                 Debug.Print("startDownload : After calling downloadFile");
 
                 setItemState(item, DownloadState.Downloaded);
+            }
+            catch (TaskCanceledException tex)
+            {
+                Debug.Print("startDownload >> catch : " + tex.Message);
+                setItemState(item, DownloadState.Cancelled);
             }
             catch (Exception ex)
             {
@@ -798,6 +813,8 @@ namespace A360Archiver
 
         private void btnBackup_Click(object sender, EventArgs e)
         {
+            cts = new CancellationTokenSource();
+
             nodeToDownload = (MyTreeNode)treeView.SelectedNode;
 
             if (nodeToDownload == null || nodeToDownload.nodeType != NodeType.Folder)
@@ -813,6 +830,7 @@ namespace A360Archiver
                 return;
             }
 
+            
             //btnBackup.Enabled = false;
             listFolderContents(nodeToDownload, true, true);
         }
@@ -833,7 +851,7 @@ namespace A360Archiver
             foreach (MyListItem item in ltvFiles.Items)
             {
                 if (item.fileState == DownloadState.Failed ||
-                    item.fileState == DownloadState.Downloaded)
+                    item.fileState == DownloadState.Downloaded || item.fileState == DownloadState.Cancelled)
                     item.Remove();
             }
         }
@@ -848,6 +866,14 @@ namespace A360Archiver
             MyTreeNode node = (MyTreeNode)e.Node;
             btnBackup.Enabled = (node.nodeType == NodeType.Folder);
             btnRetry.Enabled = (node.nodeType == NodeType.Folder);
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            if (cts != null)
+            {
+                cts.Cancel();
+            }
         }
     }
     public class LogInInfo

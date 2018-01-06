@@ -248,7 +248,7 @@ namespace A360Archiver
 
                     if (nodesLoading.Count == 0)
                     {
-                        btnBackup.Enabled = true;
+                        //btnBackup.Enabled = true;
                     }
                 }
             }
@@ -471,6 +471,20 @@ namespace A360Archiver
                 subItem.Text = state.ToString();
                 subItem.BackColor = downloadStateToColor[state];
             }
+            setButtonStates();
+        }
+        private void setButtonStates()
+        {
+            bool allDone = true;
+            foreach(MyListItem item in ltvFiles.Items)
+            {
+                if(item.fileState==DownloadState.Downloading || item.fileState == DownloadState.Waiting)
+                {
+                    allDone = false;
+                }
+            }
+
+            btnCancel.Enabled = !allDone;
         }
 
         private async Task downloadFile(string localPath, string href, CancellationToken ct)
@@ -833,6 +847,9 @@ namespace A360Archiver
             
             //btnBackup.Enabled = false;
             listFolderContents(nodeToDownload, true, true);
+
+            btnBackup.Enabled = false;
+            btnCancel.Enabled = true;
         }
 
         private void btnRetry_Click(object sender, EventArgs e)
@@ -865,9 +882,9 @@ namespace A360Archiver
         {
             MyTreeNode node = (MyTreeNode)e.Node;
             btnBackup.Enabled = (node.nodeType == NodeType.Folder);
-            btnRetry.Enabled = (node.nodeType == NodeType.Folder);
+            btnRetry.Enabled = (node.nodeType == NodeType.Folder);            
         }
-
+        
         private void btnCancel_Click(object sender, EventArgs e)
         {
             if (cts != null)
@@ -875,6 +892,8 @@ namespace A360Archiver
                 cts.Cancel();
             }
         }
+
+
     }
     public class LogInInfo
     {

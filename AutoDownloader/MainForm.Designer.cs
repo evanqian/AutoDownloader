@@ -70,7 +70,7 @@
             this.splitContainer.Panel2.Controls.Add(this.tableLayoutPanel);
             this.splitContainer.Panel2MinSize = 300;
             this.splitContainer.Size = new System.Drawing.Size(757, 455);
-            this.splitContainer.SplitterDistance = 236;
+            this.splitContainer.SplitterDistance = 221;
             this.splitContainer.TabIndex = 0;
             // 
             // treeView
@@ -81,7 +81,7 @@
             this.treeView.Location = new System.Drawing.Point(3, 3);
             this.treeView.Name = "treeView";
             this.treeView.SelectedImageIndex = 0;
-            this.treeView.Size = new System.Drawing.Size(230, 449);
+            this.treeView.Size = new System.Drawing.Size(215, 449);
             this.treeView.TabIndex = 0;
             this.treeView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView_BeforeExpand);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
@@ -105,7 +105,7 @@
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel.Controls.Add(this.btnClearList, 3, 2);
+            this.tableLayoutPanel.Controls.Add(this.btnClearList, 4, 2);
             this.tableLayoutPanel.Controls.Add(this.btnRetry, 2, 2);
             this.tableLayoutPanel.Controls.Add(this.btnBackup, 1, 2);
             this.tableLayoutPanel.Controls.Add(this.btnBackupFolder, 5, 1);
@@ -113,7 +113,7 @@
             this.tableLayoutPanel.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel.Controls.Add(this.ltvFiles, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.pictureBox1, 0, 2);
-            this.tableLayoutPanel.Controls.Add(this.btnCancel, 4, 2);
+            this.tableLayoutPanel.Controls.Add(this.btnCancel, 3, 2);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -121,16 +121,16 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(517, 455);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(532, 455);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // btnClearList
             // 
             this.btnClearList.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnClearList.Location = new System.Drawing.Point(303, 427);
+            this.btnClearList.Location = new System.Drawing.Point(403, 427);
             this.btnClearList.Name = "btnClearList";
-            this.btnClearList.Size = new System.Drawing.Size(94, 23);
-            this.btnClearList.TabIndex = 6;
+            this.btnClearList.Size = new System.Drawing.Size(97, 23);
+            this.btnClearList.TabIndex = 9;
             this.btnClearList.Text = "Clear list";
             this.btnClearList.UseVisualStyleBackColor = true;
             this.btnClearList.Click += new System.EventHandler(this.btnClearList_Click);
@@ -162,7 +162,7 @@
             // btnBackupFolder
             // 
             this.btnBackupFolder.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnBackupFolder.Location = new System.Drawing.Point(489, 394);
+            this.btnBackupFolder.Location = new System.Drawing.Point(504, 394);
             this.btnBackupFolder.Margin = new System.Windows.Forms.Padding(1, 1, 3, 1);
             this.btnBackupFolder.Name = "btnBackupFolder";
             this.btnBackupFolder.Size = new System.Drawing.Size(25, 23);
@@ -178,7 +178,7 @@
             this.tbxBackupFolder.Location = new System.Drawing.Point(103, 396);
             this.tbxBackupFolder.Name = "tbxBackupFolder";
             this.tbxBackupFolder.ReadOnly = true;
-            this.tbxBackupFolder.Size = new System.Drawing.Size(382, 20);
+            this.tbxBackupFolder.Size = new System.Drawing.Size(397, 20);
             this.tbxBackupFolder.TabIndex = 1;
             // 
             // label1
@@ -203,7 +203,7 @@
             this.ltvFiles.GridLines = true;
             this.ltvFiles.Location = new System.Drawing.Point(3, 3);
             this.ltvFiles.Name = "ltvFiles";
-            this.ltvFiles.Size = new System.Drawing.Size(511, 387);
+            this.ltvFiles.Size = new System.Drawing.Size(526, 387);
             this.ltvFiles.TabIndex = 4;
             this.ltvFiles.UseCompatibleStateImageBehavior = false;
             this.ltvFiles.View = System.Windows.Forms.View.Details;
@@ -230,9 +230,10 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(403, 427);
+            this.btnCancel.Enabled = false;
+            this.btnCancel.Location = new System.Drawing.Point(303, 427);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(94, 23);
             this.btnCancel.TabIndex = 8;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -270,11 +271,11 @@
         private System.Windows.Forms.ListView ltvFiles;
         private System.Windows.Forms.ColumnHeader chFilePath;
         private System.Windows.Forms.ColumnHeader chStatus;
-        private System.Windows.Forms.Button btnClearList;
         private System.Windows.Forms.Button btnRetry;
         private System.Windows.Forms.ImageList treeImages;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnClearList;
     }
 }
 

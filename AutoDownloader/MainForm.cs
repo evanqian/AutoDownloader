@@ -189,7 +189,7 @@ namespace A360Archiver
         {
             
             InitializeComponent();
-            this.tbxBackupFolder.Text = Path.GetTempPath();
+            tbxBackupFolder.Text = Path.GetTempPath().TrimEnd("\\".ToCharArray());
 
             useDoubleBuffered(this.ltvFiles, true);
             useDoubleBuffered(this.treeView, true);

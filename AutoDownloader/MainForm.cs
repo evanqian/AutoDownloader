@@ -470,21 +470,31 @@ namespace A360Archiver
                 ListViewItem.ListViewSubItem subItem = item.SubItems[1];
                 subItem.Text = state.ToString();
                 subItem.BackColor = downloadStateToColor[state];
+                ltvFiles.Refresh();
+                //Application.DoEvents();
             }
             setButtonStates();
         }
         private void setButtonStates()
         {
             bool allDone = true;
+            bool anyUncompleted = false;
             foreach(MyListItem item in ltvFiles.Items)
             {
                 if(item.fileState==DownloadState.Downloading || item.fileState == DownloadState.Waiting)
                 {
                     allDone = false;
                 }
+                if(item.fileState==DownloadState.Cancelled || item.fileState == DownloadState.Failed)
+                {
+                    anyUncompleted = true;
+                }
             }
 
             btnCancel.Enabled = !allDone;
+            btnRetry.Enabled = allDone && anyUncompleted;
+            Application.DoEvents();
+
         }
 
         private async Task downloadFile(string localPath, string href, CancellationToken ct)
@@ -773,6 +783,7 @@ namespace A360Archiver
 
         public MyListItem addFileToList(MyTreeNode versionNode)
         {
+            
             // In case of Fusion files we'll be downloading f3z
             var postFix = versionNode.isFusionFile() ? ".f3z" : "";
 
@@ -854,9 +865,10 @@ namespace A360Archiver
 
         private void btnRetry_Click(object sender, EventArgs e)
         {
+            cts = new CancellationTokenSource();
             foreach (MyListItem item in ltvFiles.Items)
             {
-                if (item.fileState == DownloadState.Failed)
+                if (item.fileState == DownloadState.Failed || item.fileState == DownloadState.Cancelled)
                 {
                     startDownload(item.node, item);
                 }
@@ -882,7 +894,7 @@ namespace A360Archiver
         {
             MyTreeNode node = (MyTreeNode)e.Node;
             btnBackup.Enabled = (node.nodeType == NodeType.Folder);
-            btnRetry.Enabled = (node.nodeType == NodeType.Folder);            
+            //btnRetry.Enabled = (node.nodeType == NodeType.Folder);            
         }
         
         private void btnCancel_Click(object sender, EventArgs e)
